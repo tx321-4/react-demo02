@@ -1,6 +1,7 @@
 # 阮一峰的React 入门实例教程 练习
 
 > react.dev 版本16.7
+> 学习链接 [React 入门实例教程-- 阮一峰](https://www.ruanyifeng.com/blog/2015/03/react.html)
 
 # 一 ReactDOM.render()   
 
@@ -48,3 +49,34 @@ React 允许将代码封装成组件,像插入HTML标签一样，插入节点中
 * React 把组件看成是一个状态机，yi开始有一个初始状态，然后用户互动，导致状态变化，从而触发重新渲染UI
 * 可以通过`this.state` 读取对象，状态变化，`this.setState` 方法 就修改状态值，每次修改以后，自动调用`this.render`方法，重新渲染组件
 * `this.props`和`this.state`都是用来描述组件的特性,区别在于，`this.state`是会随用户互动而产生变化的特性,`this.props` 表示一旦定义，就不再改变的特性
+
+&nbsp;
+# 八 表单
+* 用户在表单填入的内容，属于用户跟组件的互动，所以不能用 `this.props` 读取
+* 文本输入框的值，不能用 `this.props.value` 读取，而是定义一个`onChange` 事件的回调函数，通过 `event.target.value` 读取用户输入的值，
+* `textarea`元素、`select` 元素、`radio` 元素都输入这种情况
+  
+&nbsp;
+# 九 组件的生命周期
+* 组件的生命周期分成三个状态
+  * Mounting：已插入真实的 DOM
+  * Updating：正在被重新渲染
+  * Unmounting：已移出真实 DOM
+* React 为每个状态都提供了两种处理函数，`will` 函数在进入状态之前调用，`did` 函数在进入状态之后调用，三种状态共计五种处理函数
+  * componentWillMount()
+  * componentDidMount()
+  * componentWillUpdate(object, nextProps, object nextState)
+  * componentWillUnmount()
+* 此外，React还提供两种特殊状态的处理函数
+  * componentWillReceiveProps(object newxtProps) : 已加载组件收到新的参数时调用哪个
+  * shouldComponentUpdate(object nextPorps, object nextState)： 组件判断是否和重新渲染时调用
+
+> 组件的`style` 属性的设置方式也值得注意，
+* style="opacity:{this.state.opacity}" 错误
+* style ={{opacity: this.state.opacity}}
+* 这是因为 React组件样式是一个对象，所以第一重大括号表示这是JavaScript 语法，第二重大括号表示样式对象
+
+&nbsp;  
+# 十 Ajax
+* 组件的数据来源，通常是通过Ajax请求从服务器获取，可以使用`componentDidMout` 方法设置 Ajax请求，等到请求成功后，再用`this.setState` 方法重新渲染UI
+* Promist对象传入组件
